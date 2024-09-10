@@ -1,40 +1,44 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
-import { verticalScale } from 'react-native-size-matters';
+import { ImageBackground, Text, View } from 'react-native';
 import CustomButton from '../../../Button/CustomButton';
 import LogoOnTop from '../LogoOnTop/LogoOnTop';
+import styles from './Styles';
 
-const Welcome = () => {
-  const navigation=useNavigation();
+const Welcome = ({route}) => {
+  const navigation = useNavigation();
+  const {name} = route.params || {};
+
+  //when logout pressed async is cleared
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('AsyncStorage cleared!');
+    } catch (error) {
+      console.error('Error clearing AsyncStorage', error);
+    }
+  };
+  const handleOnpress = () => {
+    clearAsyncStorage();
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'LetsStart'}],
+    });
+  };
   return (
-    <ImageBackground source={require("../../../Images/test.png")} style={styles.background}>
-      <LogoOnTop/>
+    <ImageBackground
+      source={require('../../../Images/test.png')}
+      style={styles.background}>
+      <LogoOnTop />
       <View style={styles.welcome}>
-        <Text style={styles.welcomeText}>Welcome </Text>
+        <Text style={styles.welcomeText}>Welcome,{name}</Text>
       </View>
       <View style={styles.buttonView}>
-        <CustomButton text="Logout" onPress={()=>navigation.navigate('SignIn')}/>
+        <CustomButton text="Logout" onPress={handleOnpress} />
       </View>
     </ImageBackground>
-  )
-}
-const styles=StyleSheet.create({
-  background:{
-    width:'100%',
-    height:'100%',
-  },
-  welcome:{
-    marginTop:verticalScale(30),
-    justifyContent:'center',
-    alignItems:'center'
-  },
-  welcomeText:{
-    fontWeight:'700',
-    fontSize:30, 
-  },
-  buttonView:{
-    marginTop:verticalScale(150),
-  }
-})
-export default Welcome
+  );
+};
+
+export default Welcome;
