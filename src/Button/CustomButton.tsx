@@ -4,11 +4,11 @@ import { scale, verticalScale } from 'react-native-size-matters';
 
 const CustomButton = ({ text, onPress }) => {
   return (
-    <View style={styles.touchableOpacityView}>
-            <TouchableOpacity onPress={onPress}>
-                <Text style={styles.touchableText}>{text}</Text>
-            </TouchableOpacity>
-    </View>
+    <TouchableOpacity onPress={onPress}>
+        <View style={styles.touchableOpacityView}>
+            <Text style={styles.touchableText}>{text}</Text>
+        </View>
+    </TouchableOpacity>
   );
 };
 

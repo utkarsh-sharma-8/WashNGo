@@ -11,6 +11,7 @@ import MidText from '../MidText/MidText';
 
 const SignIn = () => {
     const navigation =useNavigation();
+    
   return (
     <ImageBackground source={require("../../../Images/test.png")} style={styles.background}>
         <LogoOnTop/>
